@@ -1,0 +1,24 @@
+﻿@page "/counter/{Increment:int}"
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter by @Increment</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-@ButtonStyle" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    [Parameter]   
+    public int Increment { get; set; } = 1;
+
+    [Parameter]
+    public string ButtonStyle { get; set; } = "primary";
+
+    private void IncrementCount()
+    {
+        currentCount += Increment;
+    }
+}
