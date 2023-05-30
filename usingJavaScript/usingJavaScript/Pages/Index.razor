@@ -1,0 +1,15 @@
+﻿@page "/"
+@inject IJSRuntime js
+<h1> Pencerenin boyutları: @windowSize.Width x @windowSize.Height </h1>
+<button @onclick="GetWindowSize" >Boyutları getir</button>
+
+<Document  Title="Başlık"></Document>
+@code{
+    WindowSize windowSize = new WindowSize();    
+    async Task GetWindowSize()
+    {
+        windowSize = await js.InvokeAsync<WindowSize>("interopObject.getWindowSize");
+        title = newTitle;
+      
+    }
+}

@@ -1,0 +1,28 @@
+﻿@if (IsShowing)
+{
+    <div class="dialog-container">
+        <div class="dialog">
+            <div class="dialog-title">@Title</div>
+            <div class="dialog-body">@Content</div>
+            <div class="dialog-buttons">
+                <button @onclick="OnOkButton">Tamam</button>
+                <button @onclick="OnCancelButton">İptal</button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public bool IsShowing { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnOkButton { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnCancelButton { get; set; }
+    [Parameter]
+    public RenderFragment Title { get; set; }
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+}

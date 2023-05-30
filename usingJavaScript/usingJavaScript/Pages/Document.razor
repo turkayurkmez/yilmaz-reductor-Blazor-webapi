@@ -1,0 +1,18 @@
+﻿<h3>Document</h3>
+
+@inject IJSRuntime js
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Ana sayfa";
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            IJSObjectReference module = await js.InvokeAsync<IJSObjectReference>("import", "./Pages/Document.razor.js");
+            await module.InvokeVoidAsync("setDocumentTitle", Title);
+
+        }
+    }
+
+}

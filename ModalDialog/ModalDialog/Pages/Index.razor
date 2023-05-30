@@ -1,3 +1,51 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<Component1></Component1>
+
+@*<Dialog  IsShowing="isDialogShowing" OnOkButton="OkHandler" OnCancelButton="CancelHandler">
+    <Title>@(items.Count+1). Kişiyi girin </Title>
+    <Content>
+        Yeni kişinin adını girin: <input type="text" @bind="newItem" />
+    </Content>
+</Dialog>
+*@
+<CommonDialog IsShowing="isDialogShowing" OnOkButton="OkHandler" OnCancelButton="CancelHandler">
+    <Title>@(items.Count + 1). Kişiyi girin </Title>
+    <Content>
+        Yeni kişinin adını girin: <input type="text" @bind="newItem" />
+    </Content>
+</CommonDialog>
+<button @onclick="showDialog" >Diyaloğu göster</button>
+
+<ol>
+    @foreach (var item in items)
+    {
+        <li>@item</li>
+    }
+</ol>
+
+@code{
+    private bool isDialogShowing = false;
+
+    private string? newItem;
+
+    private List<string> items = new List<string>();
+
+    void showDialog()
+    {
+        isDialogShowing = true;
+    }
+
+    void OkHandler(MouseEventArgs e)
+    {
+        items.Add(newItem);
+        newItem = string.Empty;
+        isDialogShowing = false;
+    }
+
+    void CancelHandler(MouseEventArgs e)
+    {
+        newItem = string.Empty;
+        isDialogShowing = false;
+    }
+}
