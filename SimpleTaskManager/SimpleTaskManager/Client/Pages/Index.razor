@@ -1,0 +1,31 @@
+﻿@page "/"
+
+@if (tasks == null)
+{
+    <p>Yükleniyor....</p>
+}
+else
+{
+
+    <div class="d-flex col-6 mx-auto py-2">
+        <input class="form-control m-1" type="text" placeholder="Yapılacak iş..." @bind="taskName">
+        <button type="button" class="btn btn-success" @onclick="AddTask">Ekle</button>
+    </div>
+
+    @foreach (var taskItem in tasks)
+    {
+        <div class="d-flex col-6 mx-auto border-bottom" @key="taskItem">
+            <div class="p-2 flex-fill">
+                <input type="checkbox" checked="@taskItem.IsComplete" @onchange=@(()=>CheckedChanged(taskItem))>
+                <span class="@(taskItem.IsComplete ? "completed-task":"")">@taskItem.TaskName</span>
+            </div>
+
+            <div class="p-1">
+                <button type="button" class="btn btn-outline-danger btn-sm" @onclick="@(()=>DeleteTask(taskItem))" title="Delete Task">
+                    <span class="bi bi-trash"></span>
+                </button>
+            </div>
+        </div>
+
+    }
+}
