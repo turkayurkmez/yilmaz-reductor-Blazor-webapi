@@ -1,15 +1,44 @@
 ﻿@page "/"
+@using usingJavaScript.Models;
 @inject IJSRuntime js
-<h1> Pencerenin boyutları: @windowSize.Width x @windowSize.Height </h1>
-<button @onclick="GetWindowSize" >Boyutları getir</button>
+@inject ILocalStorageService storage
 
-<Document  Title="Başlık"></Document>
-@code{
-    WindowSize windowSize = new WindowSize();    
+<h1> Pencerenin boyutları: @windowSize.Width x @windowSize.Height </h1>
+<button @onclick="GetWindowSize">Boyutları getir</button>
+
+<input type="text" @bind-value="key" />
+<input type="text" @bind-value="data" />
+<button @onclick="@(()=>SaveToLocalStorage(key))">Ekle</button>
+<br />
+<button @onclick="@(()=>ReadFromLocalStorageAsync(key))"> Veriyi oku</button>
+<span> @result </span>
+
+<Document Title="Başlık"></Document>
+@code {
+    WindowSize windowSize = new WindowSize();
     async Task GetWindowSize()
     {
         windowSize = await js.InvokeAsync<WindowSize>("interopObject.getWindowSize");
-        title = newTitle;
-      
+        //title = newTitle;
+
+    }
+
+
+    private string? data;
+    private string? key;
+    async Task SaveToLocalStorage(string key)
+    {
+        var dataInfo = new DataInfo { Value = data, TimeStamp = DateTime.Now, Length = data.Length };
+        await storage.SetItemAsync<DataInfo>(key, dataInfo);
+
+    }
+    private string? result;
+    async Task ReadFromLocalStorageAsync(string key)
+    {
+        var dataInfo = await storage.GetItemAsync<DataInfo>(key);
+        result = dataInfo.Value;
+
+
+
     }
 }
